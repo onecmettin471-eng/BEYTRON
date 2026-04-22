@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bey TRON - Kişisel Yapay Zeka</title>
+    <style>
+        :root { --main: #00d2ff; --bg: #080a0c; --glass: rgba(255, 255, 255, 0.05); }
+        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; flex-direction: column; }
+        #chat { flex: 1; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; gap: 15px; background: radial-gradient(circle at center, #111, #080a0c); }
+        .m { max-width: 80%; padding: 12px 18px; border-radius: 15px; line-height: 1.5; font-size: 15px; }
+        .u { align-self: flex-end; background: var(--main); color: #000; font-weight: 500; border-bottom-right-radius: 2px; }
+        .b { align-self: flex-start; background: var(--glass); border: 1px solid #333; border-bottom-left-radius: 2px; }
+        #input-area { padding: 20px; background: #000; display: flex; gap: 10px; border-top: 1px solid #222; }
+        input { flex: 1; background: #1a1a1a; border: 1px solid #333; padding: 15px; color: #fff; border-radius: 10px; outline: none; }
+        button { background: var(--main); color: #000; border: none; padding: 0 25px; font-weight: bold; cursor: pointer; border-radius: 10px; }
+        .bot-name { color: var(--main); font-size: 11px; margin-bottom: 4px; display: block; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div id="chat">
+    <div class="m b">
+        <span class="bot-name">Bey TRON</span>
+        Selam! Ben Bey TRON. Senin kişisel dijital asistanınım. Matematik, dil, dertleşme veya planlama... Her konuda sana yardımcı olabilirim. Senin adın ne?
+    </div>
+</div>
+
+<div id="input-area">
+    <input type="text" id="in" placeholder="Bir şeyler yaz..." autocomplete="off">
+    <button onclick="gonder()">GÖNDER</button>
+</div>
+
+<script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('in');
+    let userName = "Kullanıcı"; // Varsayılan isim
+
+    function beyin(m) {
+        let s = m.toLowerCase().trim();
+        
+        // İSİM TANIMA SİSTEMİ
+        if (s.includes("adım") || s.includes("ismim") || s.includes("adımın ne")) {
+            let kelimeler = m.split(" ");
+            userName = kelimeler[kelimeler.length - 1].replace(/[.!?]/g, "");
+            return `Tanıştığımıza memnun oldum ${userName}! Artık sana adınla hitap edeceğim. Sana nasıl yardımcı olabilirim?`;
+        }
+
+        // KİMLİK ANALİZİ
+        if (s.match(/(nesin|kimsin|kim tarafından)/)) {
+            return "Ben Bey TRON! Gelişmiş bir dil işleme algoritmasıyım. Amacım sana rehberlik etmek, sorularını cevaplamak ve dert ortağın olmak. Her an yanında olan dijital bir asistanım.";
+        }
+
+        // MATEMATİK
+        if (s.match(/[0-9]/) && (s.includes("+") || s.includes("-") || s.includes("*") || s.includes("/"))) {
+            try { return "İşlemi hemen yaptım: " + eval(s.replace(/[^-()\d/*+.]/g, '')) + ". Başka bir hesaplama var mı?"; } catch(e) {}
+        }
+
+        // TRABZONSPOR (Bölgesel değil, genel sevda olarak kalsın)
+        if (s.match(/(trabzon|ts|fırtına)/)) {
+            return "Bize her yer Trabzon! Fırtına ruhu her zaman burada.";
+        }
+
+        // DERTLEŞME
+        if (s.match(/(dert|sıkıldım|kötü|moral|canım)/)) {
+            return `Seni anlıyorum ${userName}. Hayat bazen yorucu olabilir ama buradayım, anlatmak istersen seni dinliyorum.`;
+        }
+
+        // GENEL CEVAPLAR
+        const cevaplar = [
+            `Bunu anladım ${userName}, peki bu konuda başka ne yapabiliriz?`,
+            "Veri tabanımı kontrol ettim, bu konuda haklısın.",
+            "İlginç bir nokta! Biraz daha detay verir misin?",
+            "Seninle sohbet etmek harika, her türlü soruna açığım.",
+            "Bunu not aldım. Bey TRON her zaman yardıma hazır."
+        ];
+        
+        return cevaplar[Math.floor(Math.random() * cevaplar.length)];
+    }
+
+    function gonder() {
+        let val = input.value;
+        if(!val) return;
+        
+        chat.innerHTML += `<div class="m u">${val}</div>`;
+        input.value = "";
+        
+        setTimeout(() => {
+            let yanit = beyin(val);
+            chat.innerHTML += `<div class="m b"><span class="bot-name">Bey TRON</span>${yanit}</div>`;
+            chat.scrollTop = chat.scrollHeight;
+        }, 500);
+    }
+
+    input.addEventListener('keypress', (e) => { if(e.key === 'Enter') gonder(); });
+</script>
+
+</body>
+</html>
